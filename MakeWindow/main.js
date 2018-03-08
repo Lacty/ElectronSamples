@@ -8,10 +8,10 @@ const url = require('url')
 let window
 
 
-app.on('Window-all-closed', function() {
+function createWindow() {
 
     // ブラウザウィンドウの作成
-    window = new BrouserWindow({width: 600, height: 400});
+    window = new BrowserWindow({width: 600, height: 400})
     
     // index.htmlの読み込み
     window.loadURL(url.format({
@@ -20,8 +20,29 @@ app.on('Window-all-closed', function() {
         slashes: true
     }))
 
+    // 開発用ツールを開く
+    window.webContents.openDevTools()
+
     // windowが閉じられた際の処理
     window.on('closed', () => {
         window = null
     })
-});
+}
+
+// 準備完了時の処理
+app.on('ready', createWindow)
+
+// すべてのwindowが閉じられた際の処理
+app.on('window-all-closed', () => {
+    // darwin os の場合は違うらしい
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+})
+
+// アプリがアクティブになった際の処理
+app.on('activate', () => {
+    if (win === null) {
+        createWindow()
+    }
+})
