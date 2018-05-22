@@ -1,6 +1,15 @@
 
 // モジュールの読み込み
-const {app, BrowserWindow} = require('electron')
+//const {app, BrowserWindow} = require('electron')
+//const path = require('path')
+//const url = require('url')
+
+const electron = require('electron')
+// Module to control application life.
+const app = electron.app
+// Module to create native browser window.
+const BrowserWindow = electron.BrowserWindow
+
 const path = require('path')
 const url = require('url')
 
@@ -11,7 +20,7 @@ let window
 function createWindow() {
 
     // ブラウザウィンドウの作成
-    window = new BrowserWindow({width: 600, height: 400})
+    window = new BrowserWindow({width: 800, height: 600})
     
     // index.htmlの読み込み
     window.loadURL(url.format({
@@ -21,10 +30,10 @@ function createWindow() {
     }))
 
     // 開発用ツールを開く
-    window.webContents.openDevTools()
+    //window.webContents.openDevTools()
 
     // windowが閉じられた際の処理
-    window.on('closed', () => {
+    window.on('closed', function () {
         window = null
     })
 }
@@ -33,7 +42,7 @@ function createWindow() {
 app.on('ready', createWindow)
 
 // すべてのwindowが閉じられた際の処理
-app.on('window-all-closed', () => {
+app.on('window-all-closed', function () {
     // darwin os の場合は違うらしい
     if (process.platform !== 'darwin') {
         app.quit()
@@ -41,8 +50,8 @@ app.on('window-all-closed', () => {
 })
 
 // アプリがアクティブになった際の処理
-app.on('activate', () => {
-    if (win === null) {
+app.on('activate', function () {
+    if (window === null) {
         createWindow()
     }
 })

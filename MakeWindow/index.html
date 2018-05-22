@@ -8,8 +8,13 @@
 
     <body>
         <h1>Hello World!</h1>
-        we are using node <script>document.write(process.version.node)</script>,
-        Chrome <script>document.write(process.version.chrome)</script>,
-        and Electron <script>document.write(process.version.electron)</script>.
+        we are using node <script>document.write(process.versions.node)</script>,
+        Chrome <script>document.write(process.versions.chrome)</script>,
+        and Electron <script>document.write(process.versions.electron)</script>.
+        
+        <script>
+            // You can also require other files to run in this process
+            require('./renderer.js')
+        </script>
     </body>
 </html>
